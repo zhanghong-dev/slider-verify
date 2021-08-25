@@ -28,7 +28,7 @@ toleranceValue = 0
 toleranceValue = .015
 ```
 
-### @loading
+### 事件 loading
 ```
 在组件 created 时被触发
 在滑块拖拽完成并 “错误” 时被触发
@@ -40,7 +40,9 @@ toleranceValue = .015
         @loading="sliderVerifyLoading"
         ...
 </template>
+
 <script>
+    import portalComponent__sliderVerify from '...';
     export default {
         components: {
             portalComponent__sliderVerify
@@ -80,12 +82,69 @@ toleranceValue = .015
 
 ```
 
-### @success
+### 事件 success
 ```
 在滑块拖拽完成并 “正确” 时被触发
 ```
 
-### @error
+### 事件 error
 ```
 在滑块拖拽完成并 “错误” 时被触发
+```
+
+### 默认插槽
+```
+可以嵌套 “刷新” 按钮
+
+例：
+<style>
+    .portal-component__slider-verify > div:first-child {
+        position: absolute;
+        right: 26px;
+        top: 26px;
+    }
+</style>
+
+<template>
+    <portal-component__slider-verify
+        ref="sliderVerify"
+        v-bind="sliderVerify"
+        @loading="sliderVerifyLoading"
+        ...>
+        <div>
+            <i class="iconfont __refresh"
+                @click="() => {
+                    $refs.sliderVerify.asyncInit();
+                }">
+            </i>
+        </div>
+    </portal-component__slider-verify>
+    ...
+</template>
+
+<script>
+    import portalComponent__sliderVerify from '...';
+    export default {
+        components: {
+            portalComponent__sliderVerify
+        },
+        methods: {
+            sliderVerifyLoading($done) {
+                ...
+            },
+            ...
+        },
+        data() {
+
+            return {
+                sliderVerify: {
+                    value: [ -1024, -1024 ],
+                    ...
+                },
+                ...
+            };
+
+        }
+    }
+</script>
 ```
